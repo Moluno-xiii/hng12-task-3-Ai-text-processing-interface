@@ -1,34 +1,27 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { chat_data } from ".";
+import AIResponse from "./_components/AIResponse";
+import UserPrompt from "./_components/UserPrompt";
+import UserTextBox from "./_components/UserTextBox";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div className="bg-purple-600">
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="max-w-7xl mx-auto px-3 py-4 md:px-6 md:py-10 font-roboto space-y-10 md:space-y-20">
+      <h1
+        aria-labelledby="application name"
+        className="text-2xl text-center md:text-4xl font-bold font-macondo mb-5 sticky top-0 py-3 bg-dark"
+      >
+        AI Text Processing Interface{" "}
+      </h1>
+      <ul className="space-y-10 md:space-y-20">
+        {chat_data.map((chat) => (
+          <li key={chat.id} className="flex flex-col gap-y-3">
+            <UserPrompt prompt={chat.userPrompt} />
+            <AIResponse response={chat.AIResponse} />
+          </li>
+        ))}
+      </ul>
+      <UserTextBox />
+    </div>
   );
 }
 

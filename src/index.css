@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Macondo&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -7,7 +8,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--color-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,9 +28,18 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color-indigo);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+@theme {
+  --color-primary: #1e90ff;
+  --color-secondary: rgb(0, 122, 103);
+  --color-dark: #242424;
+  --color-indigo: #646cff;
+  --font-macondo: Macondo, serif;
+  --font-roboto: Roboto, arial;
 }
