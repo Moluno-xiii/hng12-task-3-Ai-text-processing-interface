@@ -1,2 +1,11 @@
 Accessibility using arial labels.
 Error handling.
+
+
+summarization, translation, language detection.
+once user sends a prompt, the prompt should immediately render on the screen.
+use language detector API to detect the text language and render it below the output text.
+If the text is more than 150 characters, use the summarizer API to summarize the response. ONLY WHEN THE OUTPUT TEXT IS IN ENGLISH.
+Select option that reads 'translate' to translate the output text to the selected language, using the Translator API.
+Save previous chat data to local storage, and load them on startup.
+(await ai.languageModel.capabilities()).available

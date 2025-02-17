@@ -4,7 +4,7 @@ type Props = {
 
 const UserPrompt: React.FC<Props> = ({ prompt }) => {
   return (
-    <div className="p-4 max-sm:mr-10 max-w-2xl bg-secondary rounded-4xl self-start">
+    <div className="p-4 max-sm:mr-10 max-w-2xl bg-primary rounded-4xl self-end">
       {prompt}
     </div>
   );
