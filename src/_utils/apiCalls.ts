@@ -114,18 +114,14 @@ const summarizeText = async ({
       }
       console.log(summary);
     } catch (error) {
-      console.error("Error detecting language:", error);
-      errorCallback("Error detecting language");
+      console.error("Error summarizing article:", error);
+      errorCallback("Error summarizing article");
     } finally {
       loadingCallback(false);
     }
   } else {
-    errorCallback(
-      "Language detector API is not available in this environment."
-    );
-    console.error(
-      "Language Detector API is not available in this environment."
-    );
+    errorCallback("Summarizer API is not available in this environment.");
+    console.error("Summarizer API is not available in this environment.");
   }
 };
 
@@ -165,10 +161,10 @@ const translateLanguage = async ({
     }
   } else {
     errorCallback(
-      "Language detector API is not available in this environment."
+      "Language translation API is not available in this environment."
     );
     console.error(
-      "Language Detector API is not available in this environment."
+      "Language translation API is not available in this environment."
     );
   }
 };
