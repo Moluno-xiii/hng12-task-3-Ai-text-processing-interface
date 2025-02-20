@@ -1,8 +1,13 @@
+import { useUserTextContext } from "../_contexts/UserPromptContext";
+
 type Props = {
   response: string;
 };
 
 const AIResponse: React.FC<Props> = ({ response }) => {
+  const { isLoading } = useUserTextContext();
+
+  if (isLoading) return <span className="self-start">Loading...</span>;
   return (
     <div
       aria-labelledby="AI's response"

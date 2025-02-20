@@ -1,7 +1,43 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useUserTextContext } from "../_contexts/UserPromptContext";
+import { BsFillSendFill } from "react-icons/bs";
+import { detectLanguage } from "../_utils/apiCalls";
 
 const UserTextBox: React.FC = () => {
+  const {
+    handleUserPrompt,
+    setErrorMessage,
+    setIsLoading,
+    isLoading,
+    errorMessage,
+    setDetectedLanguage,
+  } = useUserTextContext();
+  const [value, setValue] = useState("");
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleDetectLanguage = () => {
+    detectLanguage({
+      errorCallback: setErrorMessage,
+      loadingCallback: setIsLoading,
+      setterCallback: setDetectedLanguage,
+      text: value,
+    });
+  };
+
+  const handleSetValue = () => {
+    if (!value.trim()) return;
+    handleUserPrompt(value);
+    setValue("");
+    handleDetectLanguage();
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSetValue();
+    }
+  };
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -10,6 +46,8 @@ const UserTextBox: React.FC = () => {
       textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
     }
   };
+
+  if (isLoading) return <span>Loading...</span>;
 
   return (
     <div
@@ -25,11 +63,16 @@ const UserTextBox: React.FC = () => {
         onInput={adjustHeight}
         style={{ height: "3rem" }}
         placeholder="Enter prompt..."
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        value={value}
       />
 
+      <span className="text-red-500">{errorMessage}</span>
       <div className="flex justify-end flex-row gap-x-5">
-        <button>send</button>
-        <button>summarize</button>
+        <button onClick={handleSetValue} hidden={value.length < 1}>
+          <BsFillSendFill className="text-indigo" />
+        </button>
       </div>
     </div>
   );
