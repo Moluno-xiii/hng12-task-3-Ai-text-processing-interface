@@ -56,29 +56,29 @@ const UserPrompt: React.FC<Props> = ({ index }) => {
           aria-labelledby=" user's prompt"
         >
           {chat.userPrompt}
-          {chat.userPrompt.split(" ").length > 150 &&
-            chat.detectedLanguage === "en" && (
-              <button
-                className="self-end"
-                onClick={handleSummarize}
-                disabled={isLoading}
-                aria-labelledby="summarize text button"
-              >
-                Summarize
-              </button>
-            )}
-          <div className="self-end gap-x-4 flex flex-row items-center">
-            <SelectComponent />
-            <button
-              disabled={selectedLanguage === chat.detectedLanguage || isLoading}
-              onClick={handleTranslate}
-              aria-labelledby="translate text button"
-            >
-              Translate
-            </button>
-          </div>
         </div>
       )}
+      {chat.userPrompt.split(" ").length > 150 &&
+        chat.detectedLanguage === "en" && (
+          <button
+            className="self-end"
+            onClick={handleSummarize}
+            disabled={isLoading}
+            aria-labelledby="summarize text button"
+          >
+            Summarize
+          </button>
+        )}
+      <div className="self-end gap-x-4 flex flex-row items-center">
+        <SelectComponent />
+        <button
+          disabled={selectedLanguage === chat.detectedLanguage || isLoading}
+          onClick={handleTranslate}
+          aria-labelledby="translate text button"
+        >
+          Translate
+        </button>
+      </div>
       <div>
         <span aria-labelledby="error message" className="text-red-400 text-2xl">
           {errorMessage}
