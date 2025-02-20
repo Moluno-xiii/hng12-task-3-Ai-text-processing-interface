@@ -14,13 +14,11 @@ function App() {
       >
         AI Text Processing Interface{" "}
       </h1>
-      <ul className="space-y-10 md:space-y-20">
+      <ul className="space-y-10 md:space-y-20 mb-40">
         {chat_data.map((chat) => (
           <li key={chat.id} className="flex flex-col gap-y-3">
             <UserPrompt prompt={userPrompt} />
             <AIResponse response={aiResponse} />
-            {/* <UserPrompt prompt={chat.userPrompt} />
-            <AIResponse response={chat.AIResponse} /> */}
           </li>
         ))}
       </ul>

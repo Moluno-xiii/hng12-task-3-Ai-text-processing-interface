@@ -6,48 +6,6 @@ type ApiCall = {
   text?: string;
 };
 
-const handleSummarize = async ({ loadingCallback, errorCallback }: ApiCall) => {
-  try {
-    loadingCallback(true);
-    const response = await fetch("");
-    const data = await response.json();
-    return data;
-  } catch (error: any) {
-    console.error(error.message);
-    errorCallback(error.message);
-  } finally {
-    loadingCallback(false);
-  }
-};
-
-const handleTranslate = async ({ loadingCallback, errorCallback }: ApiCall) => {
-  try {
-    loadingCallback(true);
-    const response = await fetch("");
-    const data = await response.json();
-    return data;
-  } catch (error: any) {
-    console.error(error.message);
-    errorCallback(error.message);
-  } finally {
-    loadingCallback(false);
-  }
-};
-
-const handleDetect = async ({ loadingCallback, errorCallback }: ApiCall) => {
-  try {
-    loadingCallback(true);
-    const response = await fetch("");
-    const data = await response.json();
-    return data;
-  } catch (error: any) {
-    console.error(error.message);
-    errorCallback(error.message);
-  } finally {
-    loadingCallback(false);
-  }
-};
-
 const detectLanguage = async ({
   errorCallback,
   loadingCallback,
@@ -112,6 +70,7 @@ const detectLanguage = async ({
     );
   }
 };
+
 const summarizeText = async ({
   errorCallback,
   loadingCallback,
@@ -123,7 +82,7 @@ const summarizeText = async ({
       sharedContext: text,
       type: "key-points",
       format: "markdown",
-      length: "medium",
+      length: "short",
     };
 
     try {
@@ -169,10 +128,46 @@ const summarizeText = async ({
   }
 };
 
-export {
-  handleSummarize,
-  handleTranslate,
-  handleDetect,
-  detectLanguage,
-  summarizeText,
+const translateLanguage = async ({
+  errorCallback,
+  loadingCallback,
+  setterCallback,
+  text,
+  sourceLanguage,
+  targetLanguage,
+}: ApiCall & { sourceLanguage: string; targetLanguage: string }) => {
+  if ("ai" in self && "translator" in (self.ai as any)) {
+    try {
+      errorCallback("");
+      loadingCallback(true);
+      const translator = await (self.ai as any).translator.create({
+        sourceLanguage,
+        targetLanguage,
+      });
+      const result = await translator.translate(text);
+      if (setterCallback) {
+        setterCallback(result);
+      }
+      console.log(result);
+    } catch (error) {
+      console.error(
+        "Error detecting language:",
+        error,
+        targetLanguage,
+        sourceLanguage
+      );
+      errorCallback("An error occured while translating language");
+    } finally {
+      loadingCallback(false);
+    }
+  } else {
+    errorCallback(
+      "Language detector API is not available in this environment."
+    );
+    console.error(
+      "Language Detector API is not available in this environment."
+    );
+  }
 };
+
+export { detectLanguage, summarizeText, translateLanguage };

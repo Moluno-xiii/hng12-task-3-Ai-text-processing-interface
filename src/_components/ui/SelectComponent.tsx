@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useUserTextContext } from "../../_contexts/UserPromptContext";
 
 const languages: { language: string; value: string }[] = [
   {
@@ -27,25 +27,28 @@ const languages: { language: string; value: string }[] = [
   },
 ];
 
-type PropTypes = {
-  handleSelectOption: (text: string) => void;
-};
+const SelectComponent: React.FC = () => {
+  const { isLoading, selectedLanguage, setSelectedLanguage } =
+    useUserTextContext();
 
-const SelectComponent: React.FC<PropTypes> = ({ handleSelectOption }) => {
-  const [option, setOption] = useState("en");
-
-  const handleChangeOption = (text: string) => {
-    setOption(text);
-    handleSelectOption(text);
+  const onChangeOption = (language: string) => {
+    setSelectedLanguage(language);
   };
 
   return (
-    <select value={option} onChange={(e) => e.target.value}>
+    <select
+      className="p-3 rounded-md bg-cyan-700"
+      value={selectedLanguage}
+      disabled={isLoading}
+      onChange={(e) => onChangeOption(e.target.value)}
+      aria-labelledby="select language to translate to"
+    >
       {languages.map(({ language, value }) => (
         <option
+          className=" text-white"
           value={value}
           key={value}
-          onClick={() => handleChangeOption(value)}
+          aria-labelledby={value}
         >
           {language}
         </option>

@@ -18,6 +18,8 @@ type InitialState = {
   setErrorMessage: Dispatch<SetStateAction<string>>;
   setDetectedLanguage: Dispatch<SetStateAction<string>>;
   detectedLanguage: string;
+  setSelectedLanguage: Dispatch<SetStateAction<string>>;
+  selectedLanguage: string;
 };
 
 const initialState: InitialState = {
@@ -31,6 +33,8 @@ const initialState: InitialState = {
   setErrorMessage: () => {},
   detectedLanguage: "",
   setDetectedLanguage: () => {},
+  selectedLanguage: "",
+  setSelectedLanguage: () => {},
 };
 
 const UserTextContext = createContext(initialState);
@@ -41,6 +45,7 @@ const UserTextContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [detectedLanguage, setDetectedLanguage] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
 
   // remember to use a reducer for this instead
 
@@ -51,16 +56,18 @@ const UserTextContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <UserTextContext.Provider
       value={{
-        userPrompt,
-        aiResponse,
-        setAiResponse,
-        handleUserPrompt,
         isLoading,
         errorMessage,
-        setErrorMessage,
-        setIsLoading,
+        userPrompt,
+        aiResponse,
+        selectedLanguage,
         detectedLanguage,
+        setIsLoading,
+        setErrorMessage,
+        handleUserPrompt,
+        setAiResponse,
         setDetectedLanguage,
+        setSelectedLanguage,
       }}
     >
       {children}
