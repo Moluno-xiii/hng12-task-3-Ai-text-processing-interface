@@ -15,5 +15,6 @@ const languages = {
   ru: "Russian",
   tr: "Turkish",
   fr: "French",
+  de: "German",
 };
 export { chat_data, languages };

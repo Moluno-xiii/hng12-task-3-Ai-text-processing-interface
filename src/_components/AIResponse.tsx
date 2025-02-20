@@ -1,23 +1,22 @@
-import { useUserTextContext } from "../_contexts/UserPromptContext";
-import Spinner from "./ui/Spinner";
+import { useUserPromptContext } from "../_contexts/UserPromptContext";
 
 type Props = {
-  response: string;
+  index: number;
 };
 
-const AIResponse: React.FC<Props> = ({ response }) => {
-  const { isLoading, aiResponse } = useUserTextContext();
+const AIResponse: React.FC<Props> = ({ index }) => {
+  const { chats } = useUserPromptContext();
 
-  if (isLoading) return <Spinner />;
+  const response = chats[index] || { aiResponse: "" };
 
   return (
-    <div aria-labelledby="AI's response" className=" flex flex-col">
-      {aiResponse.length >= 1 && (
+    <div aria-labelledby="AI's response" className="flex flex-col">
+      {response.aiResponse && (
         <div
-          className=" p-4 max-sm:ml-5 max-w-2xl bg-secondary rounded-4xl self-start"
-          aria-labelledby="Ai response container"
+          className="p-4 max-sm:ml-5 max-w-2xl bg-secondary rounded-4xl self-start"
+          aria-labelledby="AI response container"
         >
-          {response}
+          {response.aiResponse}
         </div>
       )}
     </div>

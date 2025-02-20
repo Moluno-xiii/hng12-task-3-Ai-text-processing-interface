@@ -15,7 +15,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.title {
+  font-size: 45px;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;

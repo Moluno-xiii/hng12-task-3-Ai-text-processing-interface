@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 type ApiCall = {
   loadingCallback: React.Dispatch<React.SetStateAction<boolean>>;
   errorCallback: React.Dispatch<React.SetStateAction<string>>;
-  setterCallback?: React.Dispatch<React.SetStateAction<string>>;
+  setterCallback?: (text: string) => void;
   text?: string;
 };
 
@@ -81,7 +82,7 @@ const summarizeText = async ({
     const options = {
       sharedContext: text,
       type: "key-points",
-      format: "markdown",
+      format: "plain-text",
       length: "short",
     };
 
@@ -153,7 +154,9 @@ const translateLanguage = async ({
       console.error(
         "Error detecting language:",
         error,
+        "targe la:",
         targetLanguage,
+        "source Lan:",
         sourceLanguage
       );
       errorCallback("An error occured while translating language");

@@ -1,35 +1,40 @@
 import { useRef, useState } from "react";
-import { useUserTextContext } from "../_contexts/UserPromptContext";
+import { useUserPromptContext } from "../_contexts/UserPromptContext";
 import { BsFillSendFill } from "react-icons/bs";
 import { detectLanguage } from "../_utils/apiCalls";
 
 const UserTextBox: React.FC = () => {
-  const {
-    userPrompt,
-    errorMessage,
-    setIsLoading,
-    handleUserPrompt,
-    setErrorMessage,
-    setDetectedLanguage,
-  } = useUserTextContext();
+  const { setIsLoading, setErrorMessage, handleChat, updateChat, chats } =
+    useUserPromptContext();
   const [value, setValue] = useState("");
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleDetectLanguage = () => {
+  const handleDetectLanguage = (chatId: string) => {
     detectLanguage({
       errorCallback: setErrorMessage,
       loadingCallback: setIsLoading,
-      setterCallback: setDetectedLanguage,
+      setterCallback: (language) => {
+        if (typeof language === "string") {
+          updateChat(chatId, "detectedLanguage", language);
+        }
+      },
       text: value,
     });
   };
 
   const handleSetValue = () => {
     if (!value.trim()) return;
-    handleUserPrompt(value);
+
+    const chatId = crypto.randomUUID();
+    handleChat({
+      id: chatId,
+      userPrompt: value,
+      detectedLanguage: "",
+      aiResponse: "",
+    });
+
     setValue("");
-    handleDetectLanguage();
+    handleDetectLanguage(chatId);
 
     if (textareaRef.current) {
       textareaRef.current.style.height = "3rem";
@@ -53,23 +58,14 @@ const UserTextBox: React.FC = () => {
 
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-7xl p-4 flex flex-col gap-y-2 rounded-3xl">
-      {userPrompt.length < 1 && (
-        <span
-          className="flex flex-col text-center text-3xl md:text-5xl uppercase font-macondo"
-          aria-labelledby="Welcome text"
-        >
-          Welcome, What can i do for you today
+      {chats.length < 1 && (
+        <span className="italic text-center font-macondo md:text-5xl text-2xl ">
+          Welcome, What can i help you with Today?
         </span>
       )}
-      <div
-        aria-labelledby="user dialog box"
-        className="flex bg-dark border border-indigo p-4 flex-col gap-y-2 rounded-3xl sticky bottom-4"
-      >
+      <div className="flex bg-dark border border-indigo p-4 flex-col gap-y-2 rounded-3xl sticky bottom-4">
         <textarea
           ref={textareaRef}
-          aria-labelledby="user's text prompt"
-          name="user-input"
-          id="user-input"
           className="focus:outline-none placeholder:italic max-h-[200px] overflow-auto resize-none"
           onInput={adjustHeight}
           style={{ height: "3rem" }}
@@ -79,14 +75,10 @@ const UserTextBox: React.FC = () => {
           value={value}
         />
 
-        <span className="text-red-500" aria-labelledby="error message">
-          {errorMessage}
-        </span>
         <button
           onClick={handleSetValue}
           hidden={value.length < 1}
           className="self-end"
-          aria-labelledby="send user prompt button"
         >
           <BsFillSendFill className="text-indigo" />
         </button>

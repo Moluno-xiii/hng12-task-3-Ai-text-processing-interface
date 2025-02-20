@@ -1,4 +1,4 @@
-import { useUserTextContext } from "../../_contexts/UserPromptContext";
+import { useUserPromptContext } from "../../_contexts/UserPromptContext";
 
 const languages: { language: string; value: string }[] = [
   {
@@ -29,7 +29,7 @@ const languages: { language: string; value: string }[] = [
 
 const SelectComponent: React.FC = () => {
   const { isLoading, selectedLanguage, setSelectedLanguage } =
-    useUserTextContext();
+    useUserPromptContext();
 
   const onChangeOption = (language: string) => {
     setSelectedLanguage(language);
