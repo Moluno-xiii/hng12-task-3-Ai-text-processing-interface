@@ -8,7 +8,7 @@
 
 ## Features
 
-- Uses chrome AI API to summarize given input.
+- Uses chrome AI API to summarize given input if the input is in English, and number of characters is > 150.
 - uses chrome AI language detection API to detect Language, and Translates it to a given language, using the Translator API.
 - Suported languages, include English, Portuguese, Spanish, Russian, Turkish and French.
 

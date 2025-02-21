@@ -58,10 +58,10 @@ const UserPrompt: React.FC<Props> = ({ index }) => {
           {chat.userPrompt}
         </div>
       )}
-      {chat.userPrompt.split(" ").length > 150 &&
+      {chat.userPrompt.split("").length > 150 &&
         chat.detectedLanguage === "en" && (
           <button
-            className="self-end"
+            className="self-end my-2"
             onClick={handleSummarize}
             disabled={isLoading}
             aria-labelledby="summarize text button"
